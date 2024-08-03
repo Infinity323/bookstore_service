@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.infinity323.bookstore_service.BookSearchResponse;
+import com.infinity323.bookstore_service.domain.openlibrary.BookSearchResponse;
 
 import lombok.RequiredArgsConstructor;
 

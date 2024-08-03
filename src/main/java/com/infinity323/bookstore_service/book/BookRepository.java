@@ -1,4 +1,4 @@
-package com.infinity323.bookstore_service;
+package com.infinity323.bookstore_service.book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

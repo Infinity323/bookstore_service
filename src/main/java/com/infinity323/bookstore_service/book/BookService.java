@@ -1,10 +1,11 @@
-package com.infinity323.bookstore_service;
+package com.infinity323.bookstore_service.book;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.infinity323.bookstore_service.client.OpenLibraryBookSearchClient;
+import com.infinity323.bookstore_service.domain.openlibrary.BookSearchResponse;
 import com.infinity323.bookstore_service.util.OpenLibraryUtil;
 
 import lombok.RequiredArgsConstructor;
