@@ -75,15 +75,15 @@ public class BookController {
     }
 
     /**
-     * Endpoint to synchronize database with OpenLibrary book search results by
+     * Endpoint to synchronize books table with OpenLibrary book search results by
      * title.
      * 
      * @param title title
      * @return data
      */
     @PostMapping("/sync")
-    @ApiOperation(value = "Sync DB with OpenLibrary", notes = "Endpoint to sync database with OpenLibrary book search results by title.")
-    public ResponseEntity<ResponseDto> postMethodName(@RequestParam String title) {
+    @ApiOperation(value = "Sync Books with OpenLibrary", notes = "Endpoint to sync database with OpenLibrary book search results by title.")
+    public ResponseEntity<ResponseDto> synchronizeBooks(@RequestParam String title) {
         ResponseDto responseDto = new ResponseDto();
         try {
             responseDto.setData(bookService.synchronizeBooks(title));
