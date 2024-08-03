@@ -15,6 +15,7 @@ public class PerformanceInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        log.info("Received {} request at {}", request.getMethod(), request.getRequestURI());
         request.setAttribute(START, System.currentTimeMillis());
         return true;
     }
@@ -23,7 +24,7 @@ public class PerformanceInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) {
         Long start = (Long) request.getAttribute(START);
-        log.info("Completed {} request for {} in {} ms", request.getMethod(), request.getRequestURI(),
+        log.info("Completed {} request at {} in {} ms", request.getMethod(), request.getRequestURI(),
                 System.currentTimeMillis() - start);
     }
 
