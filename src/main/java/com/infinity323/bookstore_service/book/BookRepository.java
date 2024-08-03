@@ -8,6 +8,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitleContainsIgnoreCase(String title);
 
+    Book findByOlKey(String olKey);
+
     boolean existsByOlKey(String olKey);
 
 }

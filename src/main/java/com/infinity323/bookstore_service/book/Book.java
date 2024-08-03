@@ -28,7 +28,7 @@ public class Book {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "ol_key")
+    @Column(name = "ol_key", unique = true)
     private String olKey;
 
     @Column(name = "title")

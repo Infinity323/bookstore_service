@@ -1,4 +1,4 @@
-package com.infinity323.bookstore_service.client;
+package com.infinity323.bookstore_service.client.openlibrary;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class OpenLibraryBookSearchClient {
+public class BookSearchClient {
 
     private final RestTemplate restTemplate;
 

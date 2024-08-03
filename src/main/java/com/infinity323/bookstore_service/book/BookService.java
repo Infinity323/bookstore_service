@@ -1,11 +1,12 @@
 package com.infinity323.bookstore_service.book;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.infinity323.bookstore_service.client.OpenLibraryBookSearchClient;
+import com.infinity323.bookstore_service.client.openlibrary.BookSearchClient;
 import com.infinity323.bookstore_service.domain.openlibrary.BookSearchResponse;
 import com.infinity323.bookstore_service.util.OpenLibraryUtil;
 
@@ -19,7 +20,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    private final OpenLibraryBookSearchClient bookSearchClient;
+    private final BookSearchClient bookSearchClient;
 
     /**
      * Gets books from the database.
@@ -34,7 +35,19 @@ public class BookService {
     }
 
     /**
-     * Synchronizes books by title from OpenLibrary with the database.
+     * Gets book from the database with OpenLibrary key.
+     * 
+     * @param olKey OpenLibrary key
+     * @return book
+     */
+    public Book getBook(String olKey) {
+        Book book = bookRepository.findByOlKey(olKey);
+        log.info("{} with OpenLibrary key \"{}\"", Objects.nonNull(book) ? "Book found" : "No book found", olKey);
+        return book;
+    }
+
+    /**
+     * Synchronizes books searched by title from OpenLibrary with the database.
      * 
      * @param title title
      * @return number of books saved
