@@ -11,17 +11,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PerformanceInterceptor implements HandlerInterceptor {
 
+    private static final String START = "start";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        request.setAttribute("start", System.currentTimeMillis());
+        request.setAttribute(START, System.currentTimeMillis());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) {
-        Long start = (Long) request.getAttribute("start");
-        log.info("Completed request for [{}] in {} ms", request.getRequestURI(), System.currentTimeMillis() - start);
+        Long start = (Long) request.getAttribute(START);
+        log.info("Completed {} request for {} in {} ms", request.getMethod(), request.getRequestURI(),
+                System.currentTimeMillis() - start);
     }
 
 }
