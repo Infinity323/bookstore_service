@@ -15,13 +15,18 @@ public final class OpenLibraryUtil {
     private OpenLibraryUtil() {
     }
 
-    public static List<Book> mapDocuments(List<Document> documents) {
+    public static List<Book> mapBookDocuments(List<Document> documents) {
         return documents.stream()
-                .map(d -> Book.builder()
-                        .author(Objects.toString(d.getAuthorName(), null))
-                        .title(d.getTitle())
-                        .build())
+                .map(d -> mapBookDocument(d))
                 .collect(Collectors.toList());
+    }
+
+    public static Book mapBookDocument(Document document) {
+        return Book.builder()
+                .olKey(document.getKey())
+                .author(Objects.toString(document.getAuthorName(), null))
+                .title(document.getTitle())
+                .build();
     }
 
 }
