@@ -1,11 +1,11 @@
-package com.infinity323.bookstore_service.client.openlibrary;
+package com.infinity323.bookstore_service.client;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.infinity323.bookstore_service.domain.openlibrary.BookSearchResponse;
+import com.infinity323.bookstore_service.domain.BookSearchResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
