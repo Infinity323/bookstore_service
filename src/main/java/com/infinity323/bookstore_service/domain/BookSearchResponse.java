@@ -1,4 +1,4 @@
-package com.infinity323.bookstore_service.domain.openlibrary;
+package com.infinity323.bookstore_service.domain;
 
 import java.util.List;
 

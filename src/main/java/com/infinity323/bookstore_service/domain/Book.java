@@ -1,4 +1,4 @@
-package com.infinity323.bookstore_service.book;
+package com.infinity323.bookstore_service.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

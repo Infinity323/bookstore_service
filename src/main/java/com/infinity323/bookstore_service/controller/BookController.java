@@ -1,4 +1,4 @@
-package com.infinity323.bookstore_service.book;
+package com.infinity323.bookstore_service.controller;
 
 import java.util.Objects;
 
@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.infinity323.bookstore_service.domain.Book;
 import com.infinity323.bookstore_service.domain.ResponseDto;
+import com.infinity323.bookstore_service.service.BookService;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
