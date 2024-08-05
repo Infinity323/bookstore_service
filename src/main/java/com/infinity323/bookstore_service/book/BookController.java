@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,10 +59,10 @@ public class BookController {
      */
     @GetMapping("/{olKey}")
     @ApiOperation(value = "Get Book by OpenLibrary Key", notes = "Endpoint to get book from database by OpenLibrary key.")
-    public ResponseEntity<ResponseDto> getBook(@PathVariable String olKey) {
+    public ResponseEntity<ResponseDto> getBookByOlKey(@PathVariable String olKey) {
         ResponseDto responseDto = new ResponseDto();
         try {
-            Book book = bookService.getBook(olKey);
+            Book book = bookService.getBookByOlKey(olKey);
             HttpStatus status = Objects.nonNull(book) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
             responseDto.setData(book);
             responseDto.setStatusCode(status);
@@ -91,6 +92,28 @@ public class BookController {
             return new ResponseEntity<>(responseDto, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Exception occurred while synchronizing database", e);
+            responseDto.setMessage(e.getMessage());
+            responseDto.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Endpoint to delete book from database by OpenLibrary key.
+     * 
+     * @param olKey OpenLibrary key
+     * @return data
+     */
+    @DeleteMapping("/{olKey}")
+    @ApiOperation(value = "Delete Book by OpenLibrary Key", notes = "Endpoint to delete book from database by OpenLibrary key.")
+    public ResponseEntity<ResponseDto> deleteBookByOlKey(@PathVariable String olKey) {
+        ResponseDto responseDto = new ResponseDto();
+        try {
+            responseDto.setData(bookService.deleteBookByOlKey(olKey));
+            responseDto.setStatusCode(HttpStatus.OK);
+            return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Exception occurred while deleting book by OpenLibrary key \"{}\"", olKey, e);
             responseDto.setMessage(e.getMessage());
             responseDto.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

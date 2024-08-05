@@ -40,7 +40,7 @@ public class BookService {
      * @param olKey OpenLibrary key
      * @return book
      */
-    public Book getBook(String olKey) {
+    public Book getBookByOlKey(String olKey) {
         Book book = bookRepository.findByOlKey(olKey);
         log.info("{} with OpenLibrary key \"{}\"", Objects.nonNull(book) ? "Book found" : "No book found", olKey);
         return book;
@@ -63,6 +63,18 @@ public class BookService {
         bookRepository.saveAll(booksToSave);
         log.info("Saved {} books to the database based on search by title {}", booksToSave.size(), title);
         return booksToSave.size();
+    }
+
+    /**
+     * Deletes book from database with matching OpenLibrary key.
+     * 
+     * @param olKey OpenLibrary key
+     * @return number of books deleted
+     */
+    public Long deleteBookByOlKey(String olKey) {
+        Long numDeleted = bookRepository.deleteByOlKey(olKey);
+        log.info("Deleted {} books from the database with OpenLibrary key \"{}\"", numDeleted, olKey);
+        return numDeleted;
     }
 
 }
