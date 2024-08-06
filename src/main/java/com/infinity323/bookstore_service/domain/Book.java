@@ -37,4 +37,13 @@ public class Book {
     @Column(name = "author", length = 4000)
     private String author;
 
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "first_publish_year")
+    private Long firstPublishYear;
+
+    @Column(name = "language")
+    private String language;
+
 }
