@@ -39,7 +39,7 @@ public class BookController {
      */
     @GetMapping
     @ApiOperation(value = "Get Books", notes = "Endpoint to get books from database.")
-    public ResponseEntity<ResponseDto> getBooks(@RequestParam(required = false) String title) {
+    public ResponseEntity<ResponseDto> getBooks(@RequestParam(required = true) String title) {
         ResponseDto responseDto = new ResponseDto();
         try {
             responseDto.setData(bookService.getBooks(title));

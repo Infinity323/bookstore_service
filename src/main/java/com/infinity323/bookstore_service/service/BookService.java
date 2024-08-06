@@ -1,6 +1,8 @@
 package com.infinity323.bookstore_service.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -56,7 +58,8 @@ public class BookService {
      * @param title title
      * @return number of books saved
      */
-    public int synchronizeBooks(String title) {
+    public Map<String, List<Book>> synchronizeBooks(String title) {
+        Map<String, List<Book>> results = new HashMap<>();
         BookSearchResponse openLibraryResponse = bookSearchClient.search(title);
         List<Book> booksToSave = openLibraryResponse.getDocs().stream()
                 .filter(d -> !bookRepository.existsByOlKey(d.getKey()))
@@ -64,7 +67,8 @@ public class BookService {
                 .collect(Collectors.toList());
         bookRepository.saveAll(booksToSave);
         log.info("Saved {} books to the database based on search by title {}", booksToSave.size(), title);
-        return booksToSave.size();
+        results.put(title, booksToSave);
+        return results;
     }
 
     /**

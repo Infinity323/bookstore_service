@@ -25,7 +25,10 @@ public final class OpenLibraryUtil {
         return Book.builder()
                 .olKey(document.getKey())
                 .author(Objects.toString(document.getAuthorName(), null))
+                .firstPublishYear(document.getFirstPublishYear())
+                .language(Objects.toString(document.getLanguage()))
                 .title(document.getTitle())
+                .type(document.getType())
                 .build();
     }
 

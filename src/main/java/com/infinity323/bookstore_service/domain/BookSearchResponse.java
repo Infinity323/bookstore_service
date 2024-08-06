@@ -17,25 +17,17 @@ public class BookSearchResponse {
 
     @Data
     public static class Document {
-        @JsonProperty("cover_i")
-        private Integer coverI;
-        @JsonProperty("has_fulltext")
-        private Boolean hasFullText;
-        @JsonProperty("edition_count")
-        private Integer editionCount;
-        @JsonProperty("title")
-        private String title;
         @JsonProperty("author_name")
         private List<String> authorName;
         @JsonProperty("first_publish_year")
-        private String firstPublishYear;
+        private Long firstPublishYear;
         @JsonProperty("key")
         private String key;
-        @JsonProperty("ia")
-        private List<String> ia;
-        @JsonProperty("author_key")
-        private List<String> authorKey;
-        @JsonProperty("public_scan_b")
-        private Boolean publicScanB;
+        @JsonProperty("language")
+        private List<String> language;
+        @JsonProperty("title")
+        private String title;
+        @JsonProperty("type")
+        private String type;
     }
 }
