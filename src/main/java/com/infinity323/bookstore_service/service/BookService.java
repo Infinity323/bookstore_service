@@ -60,7 +60,7 @@ public class BookService {
      */
     public Map<String, List<Book>> synchronizeBooks(String title) {
         Map<String, List<Book>> results = new HashMap<>();
-        BookSearchResponse openLibraryResponse = bookSearchClient.search(title);
+        BookSearchResponse openLibraryResponse = bookSearchClient.searchByTitle(title);
         List<Book> booksToSave = openLibraryResponse.getDocs().stream()
                 .filter(d -> !bookRepository.existsByOlKey(d.getKey()))
                 .map(d -> OpenLibraryUtil.mapBookDocument(d))

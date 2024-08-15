@@ -33,9 +33,9 @@ public class BookSearchClient {
      * @param title title
      * @return response body
      */
-    public BookSearchResponse search(String title) {
+    public BookSearchResponse searchByTitle(String title) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(BASE_URL)
-                .queryParam("q", title)
+                .queryParam("title", title)
                 .queryParam("field", VALUES_TO_RETURN)
                 .queryParam("limit", RESPONSE_SIZE_LIMIT);
         Long start = System.currentTimeMillis();
