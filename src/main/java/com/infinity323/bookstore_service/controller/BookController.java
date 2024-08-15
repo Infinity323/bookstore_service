@@ -16,6 +16,7 @@ import com.infinity323.bookstore_service.domain.Book;
 import com.infinity323.bookstore_service.domain.ResponseDto;
 import com.infinity323.bookstore_service.service.BookService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @RequestMapping("api/v1/book")
+@Api(tags = "Book API")
 @RequiredArgsConstructor
 @Slf4j
 public class BookController {

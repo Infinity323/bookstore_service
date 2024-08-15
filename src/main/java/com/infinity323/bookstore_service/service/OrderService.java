@@ -4,6 +4,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.infinity323.bookstore_service.domain.Order;
 import com.infinity323.bookstore_service.repository.OrderRepository;
 
-import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,10 +31,22 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     /**
+     * Queries and returns orders by customer ID from the database.
+     * 
+     * @param customerId customer ID
+     * @return list of orders
+     */
+    public List<Order> findOrdersByCustomerId(Long customerId) {
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+        log.info("Retrieved {} orders by customer ID {}", customerId);
+        return orders;
+    }
+
+    /**
      * Reads orders from an Excel spreadsheet and saves them into the database.
      * e.g.:
-     * |ORDER_NUMBER|CUSTOMER_ID|PAID |PAYMENT_TIMESTAMP
-     * |123---------|123------- |1--- |1723661157
+     * |ORDER_NUMBER|CUSTOMER_ID|FULFILLED |PAYMENT_TIMESTAMP
+     * |123---------|123--------|1---------|1723661157
      * 
      * @param file orders spreadsheet
      * @return error map
@@ -67,11 +79,11 @@ public class OrderService {
                                 case 1: // customer_id
                                     order.setCustomerId((long) currentCell.getNumericCellValue());
                                     break;
-                                case 2: // paid
+                                case 2: // fulfilled
                                     if (currentCell.getNumericCellValue() == 1) {
-                                        order.setIsPaid(true);
+                                        order.setIsFulfilled(true);
                                     } else {
-                                        order.setIsPaid(false);
+                                        order.setIsFulfilled(false);
                                     }
                                     break;
                                 case 3: // payment_timestamp

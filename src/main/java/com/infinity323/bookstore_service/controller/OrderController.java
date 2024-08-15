@@ -15,12 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.infinity323.bookstore_service.domain.ResponseDto;
 import com.infinity323.bookstore_service.service.OrderService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("api/v1/order")
+@Api(tags = "Order API")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
