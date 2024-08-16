@@ -1,5 +1,6 @@
 package com.infinity323.bookstore_service.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
@@ -43,9 +44,11 @@ public class BookController {
     @ApiOperation(value = "Get Books", notes = "Endpoint to get books from database.")
     public ResponseEntity<ResponseDto> getBooks(@RequestParam(required = true) String title) {
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setData(bookService.getBooks(title));
-        responseDto.setStatusCode(HttpStatus.OK);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        List<Book> books = bookService.getBooks(title);
+        HttpStatus status = !books.isEmpty() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        responseDto.setData(books);
+        responseDto.setStatusCode(status);
+        return new ResponseEntity<>(responseDto, status);
     }
 
     /**
