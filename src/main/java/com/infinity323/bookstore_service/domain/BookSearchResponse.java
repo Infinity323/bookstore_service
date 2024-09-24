@@ -1,5 +1,6 @@
 package com.infinity323.bookstore_service.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +14,7 @@ public class BookSearchResponse {
     private Integer numFound;
     private Integer start;
     private Boolean numFoundExact;
-    private List<Document> docs;
+    private List<Document> docs = new ArrayList<>();
 
     @Data
     public static class Document {

@@ -56,10 +56,10 @@ public class BookService {
      * and deletes books from the database that were not returned from OpenLibrary.
      * 
      * @param title title
-     * @return number of books saved
+     * @return number of books saved and deleted
      */
-    public Map<String, List<Book>> synchronizeBooks(String title) {
-        Map<String, List<Book>> results = new HashMap<>();
+    public Map<String, Integer> synchronizeBooks(String title) {
+        Map<String, Integer> results = new HashMap<>();
         BookSearchResponse openLibraryResponse = bookSearchClient.searchByTitle(title);
         List<Book> booksToSave = openLibraryResponse.getDocs().stream()
                 .filter(d -> !bookRepository.existsByOlKey(d.getKey()))
@@ -67,7 +67,15 @@ public class BookService {
                 .collect(Collectors.toList());
         bookRepository.saveAll(booksToSave);
         log.info("Saved {} books to the database based on search by title {}", booksToSave.size(), title);
-        results.put(title, booksToSave);
+        results.put("saved", booksToSave.size());
+        List<Long> bookIdsToDelete = bookRepository.findIdByOlKeyNotIn(
+                openLibraryResponse.getDocs().stream()
+                        .map(OpenLibraryUtil::mapBookDocument)
+                        .map(Book::getOlKey)
+                        .collect(Collectors.toList()));
+        bookRepository.deleteAllById(bookIdsToDelete);
+        log.info("Deleted {} books from the database based on search by title {}", bookIdsToDelete.size(), title);
+        results.put("deleted", bookIdsToDelete.size());
         return results;
     }
 
