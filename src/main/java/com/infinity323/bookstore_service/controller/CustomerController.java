@@ -27,14 +27,14 @@ public class CustomerController {
     /**
      * Endpoint to retrieve a customer's orders.
      * 
-     * @param id customer ID
+     * @param id customer party ID
      * @return data
      */
     @GetMapping("/{id}/orders")
     @ApiOperation(value = "Orders", notes = "Endpoint to retrieve a customer's orders")
-    public ResponseEntity<ResponseDto> findOrdersByCustomerId(@PathVariable Long id) {
+    public ResponseEntity<ResponseDto> findOrdersByCustomerPartyId(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
-        responseDto.setData(orderService.findOrdersByCustomerId(id));
+        responseDto.setData(orderService.findOrdersByCustomerPartyId(id));
         responseDto.setStatusCode(HttpStatus.OK);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

@@ -27,16 +27,16 @@ class OrderServiceTest {
 
     @Test
     void findOrdersByCustomerId_Exists_Success() {
-        when(orderRepository.findByCustomerId(any())).thenReturn(List.of(new Order()));
+        when(orderRepository.findByCustomer_PartyId(any())).thenReturn(List.of(new Order()));
 
-        assertEquals(1, orderRepository.findByCustomerId(1L).size());
+        assertEquals(1, orderRepository.findByCustomer_PartyId("1").size());
     }
 
     @Test
     void findOrdersByCustomerId_NotExists_Success() {
-        when(orderRepository.findByCustomerId(any())).thenReturn(List.of());
+        when(orderRepository.findByCustomer_PartyId(any())).thenReturn(List.of());
 
-        assertTrue(orderService.findOrdersByCustomerId(1L).isEmpty());
+        assertTrue(orderService.findOrdersByCustomerPartyId("1").isEmpty());
     }
 
 }

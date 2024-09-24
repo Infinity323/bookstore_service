@@ -29,6 +29,9 @@ public class Customer {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "party_id")
+    private String partyId;
+
     @Column(name = "first_name")
     private String firstName;
 

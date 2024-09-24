@@ -39,12 +39,12 @@ public class OrderService {
     /**
      * Queries and returns orders by customer ID from the database.
      * 
-     * @param customerId customer ID
+     * @param partyId customer ID
      * @return list of orders
      */
-    public List<Order> findOrdersByCustomerId(Long customerId) {
-        List<Order> orders = orderRepository.findByCustomerId(customerId);
-        log.info("Retrieved {} orders by customer ID {}", customerId);
+    public List<Order> findOrdersByCustomerPartyId(String partyId) {
+        List<Order> orders = orderRepository.findByCustomer_PartyId(partyId);
+        log.info("Retrieved {} orders by customer ID {}", partyId);
         return orders;
     }
 

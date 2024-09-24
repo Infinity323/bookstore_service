@@ -63,7 +63,7 @@ public class BookService {
         BookSearchResponse openLibraryResponse = bookSearchClient.searchByTitle(title);
         List<Book> booksToSave = openLibraryResponse.getDocs().stream()
                 .filter(d -> !bookRepository.existsByOlKey(d.getKey()))
-                .map(d -> OpenLibraryUtil.mapBookDocument(d))
+                .map(OpenLibraryUtil::mapBookDocument)
                 .collect(Collectors.toList());
         bookRepository.saveAll(booksToSave);
         log.info("Saved {} books to the database based on search by title {}", booksToSave.size(), title);
