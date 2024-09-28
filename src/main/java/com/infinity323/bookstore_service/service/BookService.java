@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.infinity323.bookstore_service.client.BookSearchClient;
@@ -44,7 +45,8 @@ public class BookService {
      * @return book
      */
     public Book getBookByOlKey(String olKey) {
-        Book book = bookRepository.findByOlKey(olKey);
+        Book book = bookRepository.findByOlKey(olKey)
+                .orElseThrow(() -> new ResourceNotFoundException("Book with OpenLibrary key " + olKey + " not found"));
         log.info("{} with OpenLibrary key \"{}\"", book != null ? "Book found" : "No book found", olKey);
         return book;
     }
@@ -81,5 +83,4 @@ public class BookService {
         log.info("Deleted {} books from the database with OpenLibrary key \"{}\"", numDeleted, olKey);
         return numDeleted;
     }
-
 }

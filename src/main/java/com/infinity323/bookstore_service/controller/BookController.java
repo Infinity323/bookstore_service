@@ -1,9 +1,8 @@
 package com.infinity323.bookstore_service.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infinity323.bookstore_service.domain.Book;
-import com.infinity323.bookstore_service.domain.ResponseDto;
 import com.infinity323.bookstore_service.service.BookService;
 
 import io.swagger.annotations.Api;
@@ -41,13 +39,8 @@ public class BookController {
      */
     @GetMapping
     @ApiOperation(value = "Get Books", notes = "Endpoint to get books from database.")
-    public ResponseEntity<ResponseDto> getBooks(@RequestParam(required = true) String title) {
-        ResponseDto responseDto = new ResponseDto();
-        List<Book> books = bookService.getBooks(title);
-        HttpStatus status = !books.isEmpty() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        responseDto.setData(books);
-        responseDto.setStatusCode(status);
-        return new ResponseEntity<>(responseDto, status);
+    public List<Book> getBooks(@RequestParam(required = true) String title) {
+        return bookService.getBooks(title);
     }
 
     /**
@@ -58,13 +51,8 @@ public class BookController {
      */
     @GetMapping("/{olKey}")
     @ApiOperation(value = "Get Book by OpenLibrary Key", notes = "Endpoint to get book from database by OpenLibrary key.")
-    public ResponseEntity<ResponseDto> getBookByOlKey(@PathVariable String olKey) {
-        ResponseDto responseDto = new ResponseDto();
-        Book book = bookService.getBookByOlKey(olKey);
-        HttpStatus status = book != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        responseDto.setData(book);
-        responseDto.setStatusCode(status);
-        return new ResponseEntity<>(responseDto, status);
+    public Book getBookByOlKey(@PathVariable String olKey) {
+        return bookService.getBookByOlKey(olKey);
     }
 
     /**
@@ -76,11 +64,8 @@ public class BookController {
      */
     @PostMapping("/sync")
     @ApiOperation(value = "Sync Books with OpenLibrary", notes = "Endpoint to sync database with OpenLibrary book search results by title.")
-    public ResponseEntity<ResponseDto> synchronizeBooks(@RequestParam String title) {
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setData(bookService.synchronizeBooks(title));
-        responseDto.setStatusCode(HttpStatus.OK);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    public Map<String, List<Book>> synchronizeBooks(@RequestParam String title) {
+        return bookService.synchronizeBooks(title);
     }
 
     /**
@@ -91,11 +76,8 @@ public class BookController {
      */
     @DeleteMapping("/{olKey}")
     @ApiOperation(value = "Delete Book by OpenLibrary Key", notes = "Endpoint to delete book from database by OpenLibrary key.")
-    public ResponseEntity<ResponseDto> deleteBookByOlKey(@PathVariable String olKey) {
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setData(bookService.deleteBookByOlKey(olKey));
-        responseDto.setStatusCode(HttpStatus.OK);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    public Long deleteBookByOlKey(@PathVariable String olKey) {
+        return bookService.deleteBookByOlKey(olKey);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.infinity323.bookstore_service.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,7 +11,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitleContainsIgnoreCase(String title);
 
-    Book findByOlKey(String olKey);
+    Optional<Book> findByOlKey(String olKey);
 
     boolean existsByOlKey(String olKey);
 

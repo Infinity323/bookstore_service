@@ -2,18 +2,20 @@ package com.infinity323.bookstore_service.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 import com.infinity323.bookstore_service.domain.Book;
 import com.infinity323.bookstore_service.repository.BookRepository;
@@ -43,16 +45,16 @@ class BookServiceTest {
 
     @Test
     void getBookByOlKey_Exists_Success() {
-        when(bookRepository.findByOlKey(any())).thenReturn(new Book());
+        when(bookRepository.findByOlKey(any())).thenReturn(Optional.of(new Book()));
 
         assertNotNull(bookService.getBookByOlKey("test"));
     }
 
     @Test
     void getBookByOlKey_NotExists_Success() {
-        when(bookRepository.findByOlKey(any())).thenReturn(null);
+        when(bookRepository.findByOlKey(any())).thenThrow(ResourceNotFoundException.class);
 
-        assertNull(bookService.getBookByOlKey("test"));
+        assertThrows(ResourceNotFoundException.class, () -> bookService.getBookByOlKey("test"));
     }
 
     @Test

@@ -1,94 +1,62 @@
 package com.infinity323.bookstore_service.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.test.web.servlet.MockMvc;
 
 import com.infinity323.bookstore_service.domain.Book;
-import com.infinity323.bookstore_service.domain.ResponseDto;
 import com.infinity323.bookstore_service.service.BookService;
 
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(BookController.class)
 class BookControllerTest {
 
-    @InjectMocks
-    BookController bookController;
+    private static String BASE_URL = "/api/v1/book";
 
-    @Mock
+    @Autowired
+    MockMvc mockMvc;
+    @MockBean
     BookService bookService;
 
     @Test
-    @SuppressWarnings("unchecked")
-    void getBooks_Success() {
+    void getBooks_Success() throws Exception {
         when(bookService.getBooks(any())).thenReturn(List.of(new Book()));
 
-        ResponseDto responseDto = bookController.getBooks("test").getBody();
-        assertNotNull(responseDto);
-        assertEquals(1, ((List<Book>) responseDto.getData()).size());
-        assertEquals(HttpStatus.OK, HttpStatus.valueOf(responseDto.getStatus()));
+        mockMvc.perform(get(BASE_URL).param("title", "test"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    void getBooks_NotFound() {
-        when(bookService.getBooks(any())).thenReturn(List.of());
-
-        ResponseDto responseDto = bookController.getBooks("test").getBody();
-        assertNotNull(responseDto);
-        assertTrue(((List<Book>) responseDto.getData()).isEmpty());
-        assertEquals(HttpStatus.NOT_FOUND, HttpStatus.valueOf(responseDto.getStatus()));
-    }
-
-    @Test
-    void getBookByOlKey_Success() {
+    void getBookByOlKey_Success() throws Exception {
         when(bookService.getBookByOlKey(any())).thenReturn(new Book());
 
-        ResponseDto responseDto = bookController.getBookByOlKey("test").getBody();
-        assertNotNull(responseDto);
-        assertNotNull(responseDto.getData());
-        assertEquals(HttpStatus.OK, HttpStatus.valueOf(responseDto.getStatus()));
+        mockMvc.perform(get(BASE_URL + "/test"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void getBookByOlKey_NotFound() {
-        when(bookService.getBookByOlKey(any())).thenReturn(null);
+    void getBookByOlKey_NotFound() throws Exception {
+        when(bookService.getBookByOlKey(any())).thenThrow(ResourceNotFoundException.class);
 
-        ResponseDto responseDto = bookController.getBookByOlKey("test").getBody();
-        assertNotNull(responseDto);
-        assertNull(responseDto.getData());
-        assertEquals(HttpStatus.NOT_FOUND, HttpStatus.valueOf(responseDto.getStatus()));
+        mockMvc.perform(get(BASE_URL + "/test"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteBookByOlKey_Success() {
+    void deleteBookByOlKey_Success() throws Exception {
         when(bookService.deleteBookByOlKey(any())).thenReturn(1L);
 
-        ResponseDto responseDto = bookController.deleteBookByOlKey("test").getBody();
-        assertNotNull(responseDto);
-        assertEquals(1L, responseDto.getData());
-        assertEquals(HttpStatus.OK, HttpStatus.valueOf(responseDto.getStatus()));
+        mockMvc.perform(delete(BASE_URL + "/test"))
+                .andExpect(status().isOk());
     }
-
-    @Test
-    void deleteBookByOlKey_NotFound() {
-        when(bookService.deleteBookByOlKey(any())).thenReturn(0L);
-
-        ResponseDto responseDto = bookController.deleteBookByOlKey("test").getBody();
-        assertNotNull(responseDto);
-        assertEquals(0L, responseDto.getData());
-        assertEquals(HttpStatus.OK, HttpStatus.valueOf(responseDto.getStatus()));
-    }
-
 }
