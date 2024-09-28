@@ -1,7 +1,5 @@
 package com.infinity323.bookstore_service.exception;
 
-import java.util.Objects;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.annotation.AnnotationUtils;
@@ -24,7 +22,7 @@ public class GlobalDefaultExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ResponseDto> handleException(HttpServletRequest request, Exception e) throws Exception {
-        if (Objects.nonNull(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class))) {
+        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
 

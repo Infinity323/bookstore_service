@@ -1,7 +1,6 @@
 package com.infinity323.bookstore_service.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +61,7 @@ public class BookController {
     public ResponseEntity<ResponseDto> getBookByOlKey(@PathVariable String olKey) {
         ResponseDto responseDto = new ResponseDto();
         Book book = bookService.getBookByOlKey(olKey);
-        HttpStatus status = Objects.nonNull(book) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        HttpStatus status = book != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         responseDto.setData(book);
         responseDto.setStatusCode(status);
         return new ResponseEntity<>(responseDto, status);

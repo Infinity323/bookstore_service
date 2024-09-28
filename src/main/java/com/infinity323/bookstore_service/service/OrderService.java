@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -80,8 +79,8 @@ public class OrderService {
             int rowNumber = 0;
             while (rowsIterator.hasNext()) {
                 Row currentRow = rowsIterator.next();
-                try {
-                    if (rowNumber != 0) {
+                if (rowNumber != 0) {
+                    try {
                         Order order = new Order();
                         for (int cellCounter = 0; cellCounter < totalCoumns; cellCounter++) {
                             Cell currentCell;
@@ -134,17 +133,18 @@ public class OrderService {
                                                 "Amount is invalid");
                                         continue;
                                     }
+                                    break;
                                 default:
                                     break;
                             }
                         }
                         orderRepository.save(order);
+                    } catch (Exception e) {
+                        log.error("Exception occurred while saving order", e);
+                        errorMap.put(currentRow.getCell(0).getStringCellValue(), e.getMessage());
                     }
-                    rowNumber++;
-                } catch (Exception e) {
-                    log.error("Exception occurred while saving order", e);
-                    errorMap.put(currentRow.getCell(0).getStringCellValue(), e.getMessage());
                 }
+                rowNumber++;
             }
         } catch (Exception e) {
             log.error("Exception occurred", e);

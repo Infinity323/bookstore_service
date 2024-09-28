@@ -3,7 +3,6 @@ package com.infinity323.bookstore_service.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -46,7 +45,7 @@ public class BookService {
      */
     public Book getBookByOlKey(String olKey) {
         Book book = bookRepository.findByOlKey(olKey);
-        log.info("{} with OpenLibrary key \"{}\"", Objects.nonNull(book) ? "Book found" : "No book found", olKey);
+        log.info("{} with OpenLibrary key \"{}\"", book != null ? "Book found" : "No book found", olKey);
         return book;
     }
 

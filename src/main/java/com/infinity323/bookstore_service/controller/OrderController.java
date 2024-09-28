@@ -1,7 +1,6 @@
 package com.infinity323.bookstore_service.controller;
 
 import java.util.Map;
-import java.util.Objects;
 
 import org.apache.poi.openxml4j.opc.ContentTypes;
 import org.springframework.http.HttpStatus;
@@ -41,9 +40,9 @@ public class OrderController {
     public ResponseEntity<ResponseDto> uploadOrders(@RequestBody MultipartFile file) {
         ResponseDto responseDto = new ResponseDto();
         try {
-            if (Objects.nonNull(file)) {
-                if (Objects.isNull(file.getOriginalFilename())
-                        || !file.getContentType().equals(ContentTypes.CUSTOM_XML_PART)) {
+            if (file != null) {
+                if (file.getOriginalFilename() != null
+                        && file.getContentType().equals(ContentTypes.CUSTOM_XML_PART)) {
                     Map<String, String> errorMap = orderService.importOrders(file);
                     responseDto.setData(errorMap);
                     if (errorMap.isEmpty()) {
