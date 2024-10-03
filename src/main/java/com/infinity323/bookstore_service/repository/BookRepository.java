@@ -16,5 +16,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Long deleteByOlKey(String olKey);
 
-    List<Long> findIdByOlKeyNotIn(List<String> olKeys);
+    List<Long> findIdByTitleAndOlKeyNotIn(String title, List<String> olKeys);
 }

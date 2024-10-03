@@ -100,7 +100,7 @@ class BookServiceTest {
     void synchronizeBooks_DeleteOne() {
         when(bookSearchClient.searchByTitle(any())).thenReturn(stubBookSearchResponse());
         when(bookRepository.existsByOlKey(any())).thenReturn(true);
-        when(bookRepository.findIdByOlKeyNotIn(any())).thenReturn(List.of(1L));
+        when(bookRepository.findIdByTitleAndOlKeyNotIn(any(), any())).thenReturn(List.of(1L));
 
         Map<String, Integer> results = bookService.synchronizeBooks("test");
 

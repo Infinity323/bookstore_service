@@ -1,4 +1,4 @@
-package com.infinity323.bookstore_service.exception;
+package com.infinity323.bookstore_service.advice;
 
 import java.util.Objects;
 

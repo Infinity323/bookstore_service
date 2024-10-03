@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.infinity323.bookstore_service.client.BookSearchClient;
 import com.infinity323.bookstore_service.domain.Book;
 import com.infinity323.bookstore_service.domain.BookSearchResponse;
+import com.infinity323.bookstore_service.domain.BookSearchResponse.Document;
 import com.infinity323.bookstore_service.repository.BookRepository;
 import com.infinity323.bookstore_service.util.OpenLibraryUtil;
 
@@ -68,10 +69,10 @@ public class BookService {
         bookRepository.saveAll(booksToSave);
         log.info("Saved {} books to the database based on search by title {}", booksToSave.size(), title);
         results.put("saved", booksToSave.size());
-        List<Long> bookIdsToDelete = bookRepository.findIdByOlKeyNotIn(
+        List<Long> bookIdsToDelete = bookRepository.findIdByTitleAndOlKeyNotIn(
+                title,
                 openLibraryResponse.getDocs().stream()
-                        .map(OpenLibraryUtil::mapBookDocument)
-                        .map(Book::getOlKey)
+                        .map(Document::getKey)
                         .collect(Collectors.toList()));
         bookRepository.deleteAllById(bookIdsToDelete);
         log.info("Deleted {} books from the database based on search by title {}", bookIdsToDelete.size(), title);
