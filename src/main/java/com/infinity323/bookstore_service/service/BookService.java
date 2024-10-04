@@ -52,8 +52,8 @@ public class BookService {
     }
 
     /**
-     * Synchronizes books searched by title from OpenLibrary with the database.
-     * Saves books from OpenLibrary that are not currently in the database
+     * Synchronizes books searched by title from OpenLibrary API with the database.
+     * Saves books from OpenLibrary API that are not currently in the database
      * and deletes books from the database that were not returned from OpenLibrary.
      * 
      * @param title title
